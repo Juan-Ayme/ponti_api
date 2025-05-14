@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions, status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend # Para filtrado avanzado
@@ -15,7 +16,8 @@ from apps.academic_setup.models import PeriodoAcademico # Para la acción de gen
 class GruposViewSet(viewsets.ModelViewSet):
     queryset = Grupos.objects.select_related('materia', 'carrera', 'periodo', 'docente_asignado_directamente').all()
     serializer_class = GruposSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['periodo', 'carrera', 'materia', 'turno_preferente'] # Campos para filtrar por query params
 
@@ -23,14 +25,16 @@ class GruposViewSet(viewsets.ModelViewSet):
 class BloquesHorariosDefinicionViewSet(viewsets.ModelViewSet):
     queryset = BloquesHorariosDefinicion.objects.all()
     serializer_class = BloquesHorariosDefinicionSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['turno', 'dia_semana']
 
 class DisponibilidadDocentesViewSet(viewsets.ModelViewSet):
     queryset = DisponibilidadDocentes.objects.select_related('docente', 'periodo', 'bloque_horario').all()
     serializer_class = DisponibilidadDocentesSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['docente', 'periodo', 'dia_semana', 'esta_disponible']
 
@@ -58,7 +62,8 @@ class HorariosAsignadosViewSet(viewsets.ModelViewSet):
         'grupo__materia', 'grupo__carrera', 'docente', 'espacio', 'periodo', 'bloque_horario'
     ).all()
     serializer_class = HorariosAsignadosSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     # RU07: Visualización de horarios por diferentes criterios
     filterset_fields = ['periodo', 'docente', 'espacio', 'grupo', 'grupo__materia', 'grupo__carrera', 'dia_semana']
@@ -83,11 +88,13 @@ class HorariosAsignadosViewSet(viewsets.ModelViewSet):
 class ConfiguracionRestriccionesViewSet(viewsets.ModelViewSet):
     queryset = ConfiguracionRestricciones.objects.select_related('periodo_aplicable').all()
     serializer_class = ConfiguracionRestriccionesSerializer
-    permission_classes = [permissions.IsAuthenticated] # Probablemente solo Admin
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
 
 # Vista para la Generación de Horarios
 class GeneracionHorarioView(viewsets.ViewSet): # O APIView
-    permission_classes = [permissions.IsAdminUser] # O un permiso específico de coordinador
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
 
     # RS08: Algoritmos de optimización, AQ02: Generación < 10 min
     @action(detail=False, methods=['post'], url_path='generar-horario-automatico')

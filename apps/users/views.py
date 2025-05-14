@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions, status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -10,7 +11,8 @@ from .serializers import UserSerializer, UserRegistrationSerializer, DocentesSer
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAdminUser] # Solo admins pueden listar/modificar todos los usuarios
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAdminUser] # Solo admins pueden listar/modificar todos los usuarios
 
     @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
     def register(self, request):
@@ -29,18 +31,20 @@ class UserViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet): # Para administrar los grupos de Django
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAdminUser]
-
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
 
 class RolesViewSet(viewsets.ModelViewSet):
     queryset = Roles.objects.all()
     serializer_class = RolesSerializer
-    permission_classes = [permissions.IsAdminUser] # O un permiso más específico
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
 
 class DocentesViewSet(viewsets.ModelViewSet):
     queryset = Docentes.objects.select_related('usuario', 'unidad_principal').prefetch_related('especialidades').all()
     serializer_class = DocentesSerializer
-    permission_classes = [permissions.IsAuthenticated] # Ajustar permisos
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
 
     # Ejemplo de filtrado: /api/users/docentes/?unidad_id=1&especialidad_id=2
     def get_queryset(self):

@@ -27,8 +27,8 @@ class PeriodoAcademicoViewSet(viewsets.ModelViewSet):
     queryset = PeriodoAcademico.objects.all().order_by('-fecha_inicio')
     serializer_class = PeriodoAcademicoSerializer
      # Permite acceso sin autenticación
-    #permission_classes = [AllowAny]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]
+    #permission_classes = [permissions.IsAuthenticated]
 
 class TiposEspacioViewSet(viewsets.ModelViewSet):
     queryset = TiposEspacio.objects.all()
@@ -56,25 +56,25 @@ class EspaciosFisicosViewSet(viewsets.ModelViewSet):
 class EspecialidadesViewSet(viewsets.ModelViewSet):
     queryset = Especialidades.objects.all()
     serializer_class = EspecialidadesSerializer
-    #permission_classes = [AllowAny]   Permite acceso sin autenticación
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]   #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
 
 class MateriasViewSet(viewsets.ModelViewSet):
     queryset = Materias.objects.select_related('requiere_tipo_espacio_especifico').all()
     serializer_class = MateriasSerializer
-    # permission_classes = [AllowAny]  Permite acceso sin autenticación
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #ermission_classes = [permissions.IsAuthenticated]
 
 class CarreraMateriasViewSet(viewsets.ModelViewSet):
     queryset = CarreraMaterias.objects.select_related('carrera', 'materia').all()
     serializer_class = CarreraMateriasSerializer
-    # permission_classes = [AllowAny]  Permite acceso sin autenticación
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
 
 class MateriaEspecialidadesRequeridasViewSet(viewsets.ModelViewSet):
     queryset = MateriaEspecialidadesRequeridas.objects.select_related('materia', 'especialidad').all()
     serializer_class = MateriaEspecialidadesRequeridasSerializer
-    # permission_classes = [AllowAny]  Permite acceso sin autenticación
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]  #Permite acceso sin autenticación
+    #permission_classes = [permissions.IsAuthenticated]
 
 # ... (Vistas para Users y Scheduling de forma similar)
