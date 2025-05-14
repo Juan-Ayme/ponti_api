@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-#from apps.users.views import CustomTokenObtainPairView # Para login
+from apps.users.views import CustomTokenObtainPairView # Para login
 from rest_framework_simplejwt.views import TokenRefreshView,TokenObtainPairView
 
 urlpatterns = [
@@ -29,4 +29,8 @@ urlpatterns = [
     path('api/academic/', include('apps.academic_setup.urls')),
     #path('api/users/', include('apps.users.urls')),
     #path('api/scheduling/', include('apps.scheduling.urls')),
+    path('admin/', admin.site.urls),
+    path('api/auth/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/users/', include('apps.users.urls')),
+    path('api/scheduling/', include('apps.scheduling.urls')),
 ]
