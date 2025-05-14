@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-
+    'django_filters',
     'apps.academic_setup',
     'apps.users',
     'apps.scheduling',

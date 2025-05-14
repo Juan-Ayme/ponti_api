@@ -2,6 +2,8 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django.db import models
+from apps.scheduling import models
 from django_filters.rest_framework import DjangoFilterBackend # Para filtrado avanzado
 from .models import Grupos, BloquesHorariosDefinicion, DisponibilidadDocentes, HorariosAsignados, ConfiguracionRestricciones
 from .serializers import (
